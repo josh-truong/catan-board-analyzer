@@ -26,10 +26,10 @@ class ImageGalleryApp:
     def load_image(self, image_path: str) -> None:
         self.root.title(f"Image Gallery - {image_path}")
         detector = CatanTileShapeDetector()
-        detector.run_detection(image_path)
+        shape = detector.run_detection(image_path)
 
-        img_with_contours = detector.image_with_contours
-        cropped_image = detector.cropped_image
+        img_with_contours = shape.get_image_with_contours()
+        cropped_image = shape.get_cropped_image()
 
         if img_with_contours is not None and cropped_image is not None:
             img_with_contours = Image.fromarray(cv2.cvtColor(img_with_contours, cv2.COLOR_BGR2RGB))
@@ -72,6 +72,7 @@ class ImageGalleryApp:
         self.root.mainloop()
 
 
-image_collection = ImageCollection("../data/tiles/", ".jpg")
+# image_collection = ImageCollection("../data/game_pieces/number_tokens/", ".jpg")
+image_collection = ImageCollection("../data/game_pieces/terrain_hexes/", ".jpg")
 app = ImageGalleryApp(image_collection)
 app.run()
